@@ -1,3 +1,11 @@
+#
+# heroMenuProbabilities.py
+#
+# (c) 2020
+# If you have any issues, contact me
+# on Discord (fp#4309) or Twitter (@fpdotmonkey)
+#
+
 import random
 import pprint
 
@@ -34,6 +42,11 @@ def generateMovePool(psycheUpEquipped=False,
                      bounceEquipped=False,
                      healAvailable=True,
                      inLastThirtySeconds=False):
+'''Generates a move pool for the menu to pick from.  You can set buffs
+that you have, whether you have used heal the maximum number of times,
+or if you're in the last 30 seconds of a stock.  These conditions will
+eliminate the relavant moves from the move pool.  If you don't give the
+method any option, it'll not place any restricitons on the move pool.'''
     
     movePool = []
     for move in heroMenuRollNumbers:
@@ -50,6 +63,10 @@ def generateMovePool(psycheUpEquipped=False,
             
 def rollMenu(movePool, previousRolledMoves,
              nearBlastZone=False, nearMetalOpponent=False):
+'''This method generates a menu (4 moves) given a move pool and the previous
+menu.  You may also specify if you're near the blast zone or if you are near
+a metal opponent, which will increase the chance of Zoon and Metal Slash.'''
+    
     rolledMoves = []
     numberOfMovesInMenu = 4
     
@@ -89,6 +106,19 @@ def rollMenu(movePool, previousRolledMoves,
 
 
 def recordMoveFrequency(rolledMoves, frequencyDictionary):
+'''This function tracks how many times a move has occured in a menu over
+several runs.  Very useful for figuring out what the probability of a
+move occuring under a given condition.  To use it, initialize an empty
+dictionary to be your frequency dictionary, and update that dictionary
+with this function, like so:
+
+    frequencyDictionary = {}
+    while (condition):
+        previousRolledMoves = rollMenu(sampleMovePool, previousRolledMoves)
+        frequencyDictionary = recordMoveFrequency(previousRolledMoves,
+                                                  frequencyDictionary)
+
+Then to get the probability of each move, simply divide all the values in the dictionary by the number of samples you took.'''
     frequencies = frequencyDictionary
     if len(frequencies) == 0:
         for move in heroMenuRollNumbers:
