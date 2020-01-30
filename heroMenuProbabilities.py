@@ -42,7 +42,7 @@ def generateMovePool(psycheUpEquipped=False,
                      bounceEquipped=False,
                      healAvailable=True,
                      inLastThirtySeconds=False):
-'''Generates a move pool for the menu to pick from.  You can set buffs
+    '''Generates a move pool for the menu to pick from.  You can set buffs
 that you have, whether you have used heal the maximum number of times,
 or if you're in the last 30 seconds of a stock.  These conditions will
 eliminate the relavant moves from the move pool.  If you don't give the
@@ -63,7 +63,7 @@ method any option, it'll not place any restricitons on the move pool.'''
             
 def rollMenu(movePool, previousRolledMoves,
              nearBlastZone=False, nearMetalOpponent=False):
-'''This method generates a menu (4 moves) given a move pool and the previous
+    '''This method generates a menu (4 moves) given a move pool and the previous
 menu.  You may also specify if you're near the blast zone or if you are near
 a metal opponent, which will increase the chance of Zoon and Metal Slash.'''
     
@@ -106,7 +106,7 @@ a metal opponent, which will increase the chance of Zoon and Metal Slash.'''
 
 
 def recordMoveFrequency(rolledMoves, frequencyDictionary):
-'''This function tracks how many times a move has occured in a menu over
+    '''This function tracks how many times a move has occured in a menu over
 several runs.  Very useful for figuring out what the probability of a
 move occuring under a given condition.  To use it, initialize an empty
 dictionary to be your frequency dictionary, and update that dictionary
@@ -136,14 +136,22 @@ in the dictionary by the number of samples you took.'''
             
 
 if "__main__" == __name__:
-    sampleMovePool = generateMovePool()
+    sampleMovePool = generateMovePool(False,  # Psyche Up Equipped
+                                      False,  # Oomph Equipped
+                                      False,  # Accelerate Equipped
+                                      False,  # Bounce Equipped
+                                      True,   # Heal Available
+                                      False)  # In last 30s of match
 
     previousRolledMoves = None
     frequencyDictionary = {}
     numberOfSamples = 10000
     
     for _ in range(numberOfSamples):
-        previousRolledMoves = rollMenu(sampleMovePool, previousRolledMoves)
+        previousRolledMoves = rollMenu(sampleMovePool,
+                                       previousRolledMoves,
+                                       False, # Near Blast Zone
+                                       False) # Near Metal Opponent
         frequencyDictionary = recordMoveFrequency(previousRolledMoves,
                                                   frequencyDictionary)
         print(previousRolledMoves)
