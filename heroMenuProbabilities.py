@@ -118,7 +118,8 @@ with this function, like so:
         frequencyDictionary = recordMoveFrequency(previousRolledMoves,
                                                   frequencyDictionary)
 
-Then to get the probability of each move, simply divide all the values in the dictionary by the number of samples you took.'''
+Then to get the probability of each move, simply divide all the values
+in the dictionary by the number of samples you took.'''
     frequencies = frequencyDictionary
     if len(frequencies) == 0:
         for move in heroMenuRollNumbers:
